@@ -1,4 +1,3 @@
-
 #lang racket
 
 (provide (all-defined-out)) ;; so we can put tests in a second file
@@ -69,13 +68,13 @@
 
 ; Problem 10
 (define (cached-assoc xs n)
-  (letrec ([memo (make-vector (length xs))]
+  (letrec ([memo (make-vector (length xs) #f)]
            [slot 0]
            [f (lambda (v)
                 (let ([search (vector-assoc v memo)])
                   (if search
                       search
-                      (let ([run (assoc n xs)])
+                      (let ([run (assoc v xs)])
                         (if run
                             (begin (vector-set! memo slot run)
                                    (set! slot (add1 slot))
