@@ -17,7 +17,7 @@ class Point
 
 end
 
-# design question: "Is a 3D-point a 2D-point?" 
+# design question: "Is a 3D-point a 2D-point?"
 # [arguably poor style here, especially in statically typed OOP languages]
 class ThreeDPoint < Point
   attr_accessor :z
