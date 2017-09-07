@@ -18,16 +18,22 @@ class MyPiece < Piece
     [[[0, 0], [-1, 0], [1, 0], [2, 0], [-2, 0]], # extra2 (only needs two)
     [[0, 0], [0, -1], [0, 1], [0, 2], [0, -2]]]]
 
-  def self.next_piece (board)
-    MyPiece.new(All_My_Pieces.sample, board)
-  end
+    def self.next_piece (board)
+      if board.cheat_next
+        MyPiece.new([[[0, 0]]], board)
+      else
+        MyPiece.new(All_My_Pieces.sample, board)
+      end
+    end
 end
 
 class MyBoard < Board
 
+  attr_reader :cheat_next
   def initialize (game)
     super
     @current_block = MyPiece.next_piece(self)
+    @cheat_next = false
   end
 
   def rotate_flip
@@ -39,13 +45,14 @@ class MyBoard < Board
 
   def next_piece
     @current_block = MyPiece.next_piece(self)
+    @cheat_next = false
     @current_pos = nil
   end
 
   def store_current
     locations = @current_block.current_rotation
     displacement = @current_block.position
-    (0..@current_pos.size-1).each{|index|
+    (0..(locations.size-1)).each{|index|
       current = locations[index];
       @grid[current[1]+displacement[1]][current[0]+displacement[0]] =
       @current_pos[index]
@@ -53,14 +60,16 @@ class MyBoard < Board
     remove_filled
     @delay = [@delay - 2, 80].max
   end
+
+  def cheat
+    if @score >= 100
+      @score -= 100
+      @cheat_next = true
+    end
+  end
 end
 
 class MyTetris < Tetris
-
-  def initialize
-    super
-    my_key_bindings
-  end
 
   def set_board
     @canvas = TetrisCanvas.new
@@ -70,7 +79,8 @@ class MyTetris < Tetris
     @board.draw
   end
 
-  def my_key_bindings
+  def key_bindings
+    super
     @root.bind('u', proc {@board.rotate_flip})
     @root.bind('c', proc {@board.cheat})
   end
