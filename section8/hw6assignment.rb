@@ -6,17 +6,10 @@
 class MyPiece < Piece
 
   # Debug: All_Pieces +
-  All_My_Pieces = [[[[0, 0], [1, 0], [0, 1], [1, 1]]],  # square (only needs one)
-    rotations([[0, 0], [-1, 0], [1, 0], [0, -1]]), # T
-    [[[0, 0], [-1, 0], [1, 0], [2, 0]], # long (only needs two)
-    [[0, 0], [0, -1], [0, 1], [0, 2]]],
-    rotations([[0, 0], [0, -1], [0, 1], [1, 1]]), # L
-    rotations([[0, 0], [0, -1], [0, 1], [-1, 1]]), # inverted L
-    rotations([[0, 0], [-1, 0], [0, -1], [1, -1]]), # S
-    rotations([[0, 0], [1, 0], [0, -1], [-1, -1]]), # Z
-    rotations([[0, 0], [-1, -1], [-1, 0], [0, -1], [0, 1]]), # extra1
-    [[[0, 0], [-1, 0], [1, 0], [2, 0], [-2, 0]], # extra2 (only needs two)
-    [[0, 0], [0, -1], [0, 1], [0, 2], [0, -2]]]]
+  All_My_Pieces = All_Pieces + [rotations([[0, 0], [-1, 0], [-1, -1], [0, -1], [1, 0]]),
+  [[[0, 0], [-1, 0], [-2, 0], [1, 0], [2, 0]],
+  [[0, 0], [0, -1], [0, -2], [0, 1], [0, 2]]],
+  rotations([[0, 0], [0, -1], [1, -1]])]
 
     def self.next_piece (board)
       if board.cheat_next
